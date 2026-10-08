@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PROVIDER=mock
+      - DEBUG=false
+    volumes:
+      - ./data:/app/data
+      - ./rag_index:/app/rag_index
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    ports:
+      - "3000:3000"
+    environment:
+      - API_BASE_URL=http://api:8000/api/v1
+    depends_on:
+      - api
+
+volumes:
+  data:
+  rag_index:

@@ -1,0 +1,2 @@
+streamsync>=0.0.90
+requests>=2.31.0
